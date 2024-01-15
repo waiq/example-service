@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres:16.1
+    container_name: book_postgres
+    environment:
+      POSTGRES_USER: booksuser
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: books
+    ports:
+      - "5432:5432"
+    # volumes:
+    # - postgres_data:/var/lib/postgresql/data
+# volumes:
+# postgres_data:

@@ -1,0 +1,100 @@
+openapi: 3.0.0
+info:
+  title: Bookstore API
+  version: 1.0.0
+paths:
+  /books:
+    get:
+      summary: List all books
+      responses:
+        "200":
+          description: A list of books
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Books"
+              example:
+                - id: "c73bcdcc-2669-4bf6-81d3-e4ae73fb11fd"
+                  title: "The Great Gatsby"
+                  author: "F. Scott Fitzgerald"
+                - id: "c73bcdcc-2669-4bf6-81d3-e4ae73fb11ff"
+                  title: "To Kill a Mockingbird"
+                  author: "Harper Lee"
+    post:
+      summary: Add a new book
+      requestBody:
+        description: Book object to be added
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Book"
+            example:
+              title: "1984"
+              author: "George Orwell"
+      responses:
+        "201":
+          description: Book added successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Books"
+              example:
+                id: "c73bcdcc-2669-4bf6-81d3-e4ae73fb11fd"
+                title: "1984"
+                author: "George Orwell"
+  /books/{bookId}:
+    get:
+      summary: Get details of a specific book
+      parameters:
+        - name: bookId
+          in: path
+          required: true
+          description: ID of the book
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Details of the book
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Books"
+              example:
+                id: "c73bcdcc-2669-4bf6-81d3-e4ae73fb11fd"
+                title: "The Great Gatsby"
+                author: "F. Scott Fitzgerald"
+        "404":
+          description: Book not found
+        "400":
+          description: Bad parameters
+components:
+  schemas:
+    Book:
+      type: object
+      properties:
+        title:
+          type: string
+          example: Dungeon Crawler Carl
+        Author:
+          type: string
+          example: Matt Dinniman
+    Books:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/uuid"
+        title:
+          type: string
+          example: Dungeon Crawler Carl
+        Author:
+          type: string
+          example: Matt Dinniman
+    uuid:
+      type: string
+      example: "c73bcdcc-2669-4bf6-81d3-e4ae73fb11fd"
+      pattern: "^[0-9a-f]{8}-?[0-9a-f]{4}-?[0-9a-f]{4}-?[0-9a-f]{4}-?[0-9a-f]{12}$"
+      minLength: 36
+      maxLength: 36
