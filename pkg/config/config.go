@@ -6,7 +6,7 @@ import (
 	"github.com/nicholasjackson/env"
 )
 
-var ApplicationPort = env.Int("APP_PORT", false, 8080, "Port fot this application server")
+var ApplicationPort = env.Int("APP_PORT", false, 8080, "Port for this application server")
 
 var DatabasePort = env.Int("DB_PORT", false, 5432, "Database port")
 var DatabaseName = env.String("DB_NAME", false, "books", "Database name")

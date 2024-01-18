@@ -1,4 +1,4 @@
-package controllers
+package handlers
 
 import (
 	"context"
@@ -14,21 +14,21 @@ import (
 	"github.com/waiq/example-service/pkg/util"
 )
 
-type BooksController struct {
+type BooksHandler struct {
 	Lock sync.Mutex
 
 	service *service.BooksService
 }
 
-func NewBooksController(service *service.BooksService) *BooksController {
-	return &BooksController{
+func NewBooksHandler(service *service.BooksService) *BooksHandler {
+	return &BooksHandler{
 		service: service,
 	}
 }
 
 // List all books
 // (GET /books)
-func (b *BooksController) GetBooks(
+func (b *BooksHandler) GetBooks(
 	ctx context.Context,
 	request books.GetBooksRequestObject,
 ) (books.GetBooksResponseObject, error) {
@@ -54,7 +54,7 @@ func (b *BooksController) GetBooks(
 
 // Add a new book
 // (POST /books)
-func (b *BooksController) PostBooks(
+func (b *BooksHandler) PostBooks(
 	ctx context.Context,
 	request books.PostBooksRequestObject,
 ) (books.PostBooksResponseObject, error) {
@@ -81,7 +81,7 @@ func (b *BooksController) PostBooks(
 
 // Get details of a specific book
 // (GET /books/{bookId})
-func (b *BooksController) GetBooksBookId(
+func (b *BooksHandler) GetBooksBookId(
 	ctx context.Context,
 	request books.GetBooksBookIdRequestObject,
 ) (books.GetBooksBookIdResponseObject, error) {
@@ -110,7 +110,7 @@ func (b *BooksController) GetBooksBookId(
 	}, nil
 }
 
-func (b *BooksController) Handler() http.Handler {
+func (b *BooksHandler) Handler() http.Handler {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
@@ -120,7 +120,7 @@ func (b *BooksController) Handler() http.Handler {
 	})
 
 	handler := books.NewStrictHandlerWithOptions(
-		&BooksController{
+		&BooksHandler{
 			service: b.service,
 		},
 		[]books.StrictMiddlewareFunc{},

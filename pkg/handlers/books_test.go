@@ -1,4 +1,4 @@
-package controllers_test
+package handlers_test
 
 import (
 	"context"
@@ -8,7 +8,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/require"
 	testclient "github.com/waiq/example-service/api/books/v1/test"
-	"github.com/waiq/example-service/pkg/controllers"
+	"github.com/waiq/example-service/pkg/handlers"
 	"github.com/waiq/example-service/pkg/models"
 	"github.com/waiq/example-service/pkg/repository"
 	"github.com/waiq/example-service/pkg/service"
@@ -75,9 +75,9 @@ func TestIntegrationFindBook(t *testing.T) {
 	require.NoError(err)
 
 	bookService := service.NewBookService(context.Background(), repo)
-	controller := controllers.NewBooksController(bookService)
+	handler := handlers.NewBooksHandler(bookService)
 
-	ts := httptest.NewServer(controller.Handler())
+	ts := httptest.NewServer(handler.Handler())
 	defer ts.Close()
 
 	client, err := testclient.NewClientWithResponses(ts.URL)
@@ -120,9 +120,9 @@ func TestIntegrationAddBook(t *testing.T) {
 	require.NoError(err)
 
 	bookService := service.NewBookService(context.Background(), repo)
-	controller := controllers.NewBooksController(bookService)
+	handler := handlers.NewBooksHandler(bookService)
 
-	ts := httptest.NewServer(controller.Handler())
+	ts := httptest.NewServer(handler.Handler())
 	defer ts.Close()
 
 	client, err := testclient.NewClientWithResponses(ts.URL)
@@ -158,7 +158,7 @@ func TestIntegrationGetBooks(t *testing.T) {
 	require.NoError(err)
 
 	bookService := service.NewBookService(context.Background(), repo)
-	controller := controllers.NewBooksController(bookService)
+	handler := handlers.NewBooksHandler(bookService)
 
 	data := []struct {
 		UUID   uuid.UUID
@@ -181,7 +181,7 @@ func TestIntegrationGetBooks(t *testing.T) {
 		require.NoError(err)
 	}
 
-	ts := httptest.NewServer(controller.Handler())
+	ts := httptest.NewServer(handler.Handler())
 	defer ts.Close()
 	// Test begin
 

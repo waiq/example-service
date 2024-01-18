@@ -33,9 +33,11 @@ func (r *Repository) StoreBook(ctx context.Context, book *models.Book) error {
 
 func (r *Repository) FindBookByUUID(ctx context.Context, id uuid.UUID) (*models.Book, error) {
 	var results models.Book
-	tx := r.db.WithContext(ctx).Where("UUID = ?", id.String()).First(&results)
 
-	if tx.Error == gorm.ErrRecordNotFound {
+	// Using find with limit 1 instead of first.
+	// This avoids the ErrRecordNotFound Error logging
+	tx := r.db.WithContext(ctx).Where("UUID = ?", id.String()).Limit(1).Find(&results)
+	if tx.RowsAffected == 0 {
 		return nil, nil
 	}
 

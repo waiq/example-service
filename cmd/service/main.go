@@ -13,7 +13,7 @@ import (
 	"log/slog"
 
 	"github.com/waiq/example-service/pkg/config"
-	"github.com/waiq/example-service/pkg/controllers"
+	"github.com/waiq/example-service/pkg/handlers"
 	"github.com/waiq/example-service/pkg/repository"
 	"github.com/waiq/example-service/pkg/service"
 	"gorm.io/driver/postgres"
@@ -52,7 +52,7 @@ func main() {
 	var wg sync.WaitGroup
 	wg.Add(1)
 
-	c := controllers.NewBooksController(service.NewBookService(ctx, repo))
+	c := handlers.NewBooksHandler(service.NewBookService(ctx, repo))
 	svc := http.Server{
 		Addr:    fmt.Sprintf(":%d", *config.ApplicationPort),
 		Handler: c.Handler(),
@@ -61,7 +61,7 @@ func main() {
 	go func() {
 		defer wg.Done()
 
-		logger.Info("http server starting")
+		logger.Info(fmt.Sprintf("http server starting on port: %d", *config.ApplicationPort))
 		if err := svc.ListenAndServe(); err != http.ErrServerClosed {
 			logger.Error("http server", err)
 		}
@@ -69,13 +69,13 @@ func main() {
 
 	<-stopChan
 
-	logger.Info("shutdown service")
+	logger.Info("http service shutdown")
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
 	if err := svc.Shutdown(ctx); err != nil {
-		logger.ErrorContext(ctx, "shutdown service", err)
+		logger.ErrorContext(ctx, "http service shutdown", err)
 	}
 
 	wg.Wait()
