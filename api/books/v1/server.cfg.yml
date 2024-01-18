@@ -1,0 +1,9 @@
+package: books
+generate:
+  chi-server: true
+  strict-server: true
+  models: true
+  embedded-spec: true
+compatibility:
+  apply-chi-middleware-first-to-last: true
+output: ./api/books/v1/server.gen.go
