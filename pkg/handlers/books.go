@@ -9,7 +9,7 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/google/uuid"
 	"github.com/waiq/example-service/api/books/v1"
-	"github.com/waiq/example-service/pkg/models"
+	"github.com/waiq/example-service/pkg/repository/models"
 	"github.com/waiq/example-service/pkg/service"
 	"github.com/waiq/example-service/pkg/util"
 )

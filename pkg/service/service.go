@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/google/uuid"
-	"github.com/waiq/example-service/pkg/models"
+	"github.com/waiq/example-service/pkg/repository/models"
 )
 
 type Repository interface {

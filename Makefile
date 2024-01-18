@@ -10,12 +10,11 @@ test_client:
 books_api:
 	oapi-codegen --config=./api/books/v1/server.cfg.yml ./api/books/v1/$(API_FILE) 
 
-.PHONY: books_models
-books_models:
-	oapi-codegen --config=./api/books/v1/models.cfg.yml ./api/books/v1/$(API_FILE) 
-
 .PHONY: build
-build: test_client books_api books_models
+build: books_api 
+
+.PHONY: test
+test: test_client
 
 .DEFAULT_GOAL := build
 
