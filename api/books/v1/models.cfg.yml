@@ -1,0 +1,5 @@
+package: books
+generate:
+  models: true
+  embedded-spec: true
+output: ./api/books/v1/models.gen.go

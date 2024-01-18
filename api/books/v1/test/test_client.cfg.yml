@@ -1,0 +1,8 @@
+package: test
+output: ./api/books/v1/test/testclient.gen.go
+generate:
+  client: true
+  models: true
+  embedded-spec: true
+output-options:
+  client-type-name: TestClient

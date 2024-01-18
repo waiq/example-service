@@ -88,7 +88,8 @@ func (b *BooksController) GetBooksBookId(
 	b.Lock.Lock()
 	defer b.Lock.Unlock()
 
-	id, err := uuid.FromBytes([]byte(request.BookId))
+	// id, err := uuid.
+	id, err := uuid.Parse(request.BookId)
 	if err != nil {
 		return books.GetBooksBookId400Response{}, err
 	}
@@ -120,7 +121,7 @@ func (b *BooksController) Handler() http.Handler {
 
 	handler := books.NewStrictHandlerWithOptions(
 		&BooksController{
-			service: service,
+			service: b.service,
 		},
 		[]books.StrictMiddlewareFunc{},
 		books.StrictHTTPServerOptions{})
