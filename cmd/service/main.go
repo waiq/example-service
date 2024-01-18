@@ -12,7 +12,6 @@ import (
 
 	"log/slog"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/waiq/example-service/pkg/config"
 	"github.com/waiq/example-service/pkg/controllers"
 	"github.com/waiq/example-service/pkg/repository"
@@ -58,8 +57,6 @@ func main() {
 		Addr:    fmt.Sprintf(":%d", *config.ApplicationPort),
 		Handler: c.Handler(),
 	}
-
-	spew.Dump(svc.Addr)
 
 	go func() {
 		defer wg.Done()
